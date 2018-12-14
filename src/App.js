@@ -1,82 +1,65 @@
-import React, { useEffect, useState } from "react";
-import Answer from "./Answer.js";
-import { predict } from "./helpers.js";
+import React, { useState } from "react";
+import Controls from "./Controls.js";
 import "./App.css";
 
-import { Chart } from "chart.js";
+const GameContext = React.createContext({});
 
 function App({ model }) {
-  let ref = React.createRef();
-
-  const [prediction, setPrediction] = useState(0);
-
   return (
-    <div>
+    <GameContext.Provider value={{ model }}>
       <Question />
-      <Answer ref={ref} />
-      <Response prediction={prediction} />
-      <button
-        onClick={() => {
-          predict(ref.current, model).then(prediction => {
-            setPrediction(prediction);
-          });
-        }}
-      >
-        Predict
-      </button>
-      <button
-        onClick={() => {
-          ref.current
-            .getContext("2d")
-            .clearRect(0, 0, ref.current.width, ref.current.height);
-        }}
-      >
-        Clear
-      </button>
-      <TestChart data={prediction} />
-    </div>
+      <Total />
+      <Controls />
+    </GameContext.Provider>
   );
 }
 
 function Question() {
+  const [num1, num2] = useRandomNumbers();
+
   return (
-    <div className="question-wrapper">
-      <div>2</div>
-      <div>x</div>
-      <div>3</div>
+    <div className="question">
+      <div>
+        <h2>{num1}</h2>
+      </div>
+      <div>
+        <h2>x</h2>
+      </div>
+      <div>
+        <h2>{num2}</h2>
+      </div>
     </div>
   );
 }
 
-function Response({ prediction }) {
-  return <div className="response-wrapper">{console.table(prediction)}</div>;
+function Total() {
+  const [correct, setCorrect] = useState(0);
+
+  return (
+    <div className="total">
+      <div>
+        <h2>{correct} correct.</h2>
+        <h2>10 to go!</h2>
+      </div>
+    </div>
+  );
 }
 
-function TestChart(props) {
-  let ref = React.createRef();
+function useRandomNumbers() {
+  const limit = 9;
+  const num1 = getRandomNumber(limit);
+  const num2 = getRandomNumber(limit, num1);
 
-  useEffect(() => {
-    const ctx = ref.current.getContext("2d");
+  return [num1, num2];
+}
 
-    var myChart = new Chart(ctx, {
-      // The type of chart we want to create
-      type: "bar",
-
-      // The data for our dataset
-      data: {
-        labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-        datasets: [
-          {
-            backgroundColor: "#f50057",
-            borderColor: "rgb(255, 99, 132)",
-            data: props.data
-          }
-        ]
-      }
-    });
-  });
-
-  return <canvas ref={ref} width="400" height="400" />;
+function getRandomNumber(limit, multiple = 0) {
+  const randomNumber = Math.floor(Math.random() * limit);
+  if (randomNumber * multiple <= 10) {
+    return randomNumber;
+  }
+  return getRandomNumber(limit, multiple);
 }
 
 export default App;
+export { GameContext };

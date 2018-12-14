@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useActive, useMousePosition } from "use-events";
+import { ControlsContext } from "./Controls.js";
 
-const Answer = React.forwardRef((props, ref) => {
+const Answer = React.forwardRef(() => {
+  const { ref } = useContext(ControlsContext);
   const [isActive, bindActive] = useActive();
   const [x, y, bindMousePosition] = useMousePosition();
   const [lastX, setLastX] = useState();
@@ -30,17 +32,17 @@ const Answer = React.forwardRef((props, ref) => {
   });
 
   return (
-    <canvas
-      {...bindActive}
-      {...bindMousePosition}
-      className="answer-wrapper"
-      height={150}
-      ref={ref}
-      width={150}
-    >
-      {isActive ? "clicking" : "not clicking"}
-      {x} - {y}
-    </canvas>
+    <div className="answer-wrapper">
+      <div>
+        <canvas
+          {...bindActive}
+          {...bindMousePosition}
+          height={320}
+          ref={ref}
+          width={320}
+        />
+      </div>
+    </div>
   );
 });
 
