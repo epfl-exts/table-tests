@@ -1,33 +1,38 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useActive, useMousePosition } from "use-events";
 import { ControlsContext } from "./Controls.js";
 
 const Answer = React.forwardRef(() => {
   const { ref } = useContext(ControlsContext);
-  const [isActive, bindActive] = useActive();
-  const [x, y, bindMousePosition] = useMousePosition();
-  const [lastX, setLastX] = useState();
-  const [lastY, setLastY] = useState();
+  let ctx;
+  let mouseDown = false;
+  let lastX;
+  let lastY;
+
+  function drawLine(x, y, lastX, lastY) {
+    ctx.beginPath();
+    ctx.strokeStyle = "#ffffff";
+    ctx.lineWidth = 12;
+    ctx.lineJoin = "round";
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(x, y);
+    ctx.closePath();
+    ctx.stroke();
+
+    return [x, y];
+  }
+
+  function handleMouseMove(event) {
+    const rect = event.target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    if (mouseDown) {
+      [lastX, lastY] = drawLine(x, y, lastX, lastY);
+    }
+  }
 
   useEffect(() => {
-    const ctx = ref.current.getContext("2d");
-
-    function drawLine() {
-      ctx.beginPath();
-      ctx.strokeStyle = "#ffffff";
-      ctx.lineWidth = 12;
-      ctx.lineJoin = "round";
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(x, y);
-      ctx.closePath();
-      ctx.stroke();
-    }
-
-    isActive && drawLine();
-
-    setLastX(x);
-    setLastY(y);
-
+    ctx = ref.current.getContext("2d");
     return null;
   });
 
@@ -35,8 +40,12 @@ const Answer = React.forwardRef(() => {
     <div className="answer-wrapper">
       <div>
         <canvas
-          {...bindActive}
-          {...bindMousePosition}
+          onMouseDown={() => (mouseDown = true)}
+          onMouseMove={e => handleMouseMove(e)}
+          onMouseUp={() => {
+            mouseDown = false;
+            [lastX, lastY] = [undefined, undefined];
+          }}
           height={320}
           ref={ref}
           width={320}
