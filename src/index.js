@@ -13,12 +13,7 @@ async function loadModel() {
     .then(console.log("Loaded."));
 }
 
-ReactDOM.render(
-  <div className="wrapper">
-    <App model={loadModel()} />
-  </div>,
-  document.getElementById("root")
-);
+ReactDOM.render(<App model={loadModel()} />, document.getElementById("root"));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

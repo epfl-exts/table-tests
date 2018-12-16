@@ -30,6 +30,24 @@ button:active {
   transform: scale(0.99);
 }
 
+.demo {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.demo:after {
+  content: '';
+  width: 100%;
+}
+
+.question,
+.total,
+.answer-wrapper,
+.button-wrapper {
+  width: 50%;
+}
+
 .question {
   background-color: var(--red);
 }
@@ -44,11 +62,12 @@ button:active {
 }
 
 .answer-wrapper {
-  background-color: var(--creme);
+  order: 1;
 }
 
 .answer-wrapper canvas {
   background-color: var(--dark-grey);
+  display: block;
 }
 
 .response {
@@ -58,15 +77,13 @@ button:active {
 
 .button-wrapper {
   align-items: center;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
   background-color: var(--blue);
   display: flex;
+  /* flex-direction: column; */
   justify-content: center;
   grid-column-start: 3;
   grid-column-end: 5;
   grid-row-start: 3;
   grid-row-end: 5;
+  order: 2;
 }

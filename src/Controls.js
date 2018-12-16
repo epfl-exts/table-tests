@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Answer from "./Answer.js";
-import { GameContext } from "./App.js";
+import { GameContext, useRandomNumbers } from "./App.js";
 import { predict } from "./helpers.js";
 
 const ControlsContext = React.createContext({});
 
 function Controls() {
   let ref = React.createRef();
-  const [prediction, setPrediction] = useState();
+  const [prediction, setPrediction] = useState(null);
 
   return (
     <ControlsContext.Provider value={{ ref, prediction, setPrediction }}>
@@ -47,21 +47,52 @@ function Buttons() {
 }
 
 function Response() {
-  const { prediction } = useContext(ControlsContext);
+  const { points, question, setPoints, setQuestion } = useContext(GameContext);
+  const [num1, num2] = question;
+  const answer = num1 * num2;
+  const { wins, losses } = points;
 
-  useEffect(() => {
-    if (typeof prediction === "undefined") {
-      console.log("Draw something!");
-    } else {
-      console.log("Did you mean: " + prediction + "?");
-    }
-  });
+  // This component uses two different contexts!
+  const { prediction, ref, setPrediction } = useContext(ControlsContext);
 
-  return (
-    <div className="response">
-      <h2>Did you mean?</h2>
-    </div>
-  );
+  if (prediction !== null) {
+    return (
+      <div className="response">
+        <h2>Did you mean {prediction}?</h2>
+        <button
+          onClick={() => {
+            const [num1, num2] = useRandomNumbers();
+            setQuestion([num1, num2]);
+
+            if (prediction === answer) {
+              setPoints({ losses, wins: wins + 1 });
+            } else {
+              setPoints({ losses: losses + 1, wins });
+            }
+
+            setPrediction(null);
+            ref.current
+              .getContext("2d")
+              .clearRect(0, 0, ref.current.width, ref.current.height);
+          }}
+        >
+          Yes
+        </button>
+        <button
+          onClick={() => {
+            setPrediction(null);
+            ref.current
+              .getContext("2d")
+              .clearRect(0, 0, ref.current.width, ref.current.height);
+          }}
+        >
+          No
+        </button>
+      </div>
+    );
+  } else {
+    return null;
+  }
 }
 
 export default Controls;
