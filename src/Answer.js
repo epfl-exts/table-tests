@@ -1,8 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { ControlsContext } from "./Controls.js";
 
-const Answer = React.forwardRef(() => {
-  const { ref } = useContext(ControlsContext);
+const Answer = React.forwardRef((props, ref) => {
   let ctx;
   let mouseDown = false;
   let lastX;
@@ -37,20 +36,18 @@ const Answer = React.forwardRef(() => {
   });
 
   return (
-    <div className="answer-wrapper">
-      <div>
-        <canvas
-          onMouseDown={() => (mouseDown = true)}
-          onMouseMove={e => handleMouseMove(e)}
-          onMouseUp={() => {
-            mouseDown = false;
-            [lastX, lastY] = [undefined, undefined];
-          }}
-          height={320}
-          ref={ref}
-          width={320}
-        />
-      </div>
+    <div className="answer">
+      <canvas
+        onMouseDown={() => (mouseDown = true)}
+        onMouseMove={e => handleMouseMove(e)}
+        onMouseUp={() => {
+          mouseDown = false;
+          [lastX, lastY] = [undefined, undefined];
+        }}
+        height={320}
+        ref={ref}
+        width={320}
+      />
     </div>
   );
 });

@@ -1,11 +1,10 @@
 button {
   background: var(--creme);
   border: none;
+  box-shadow: var(--shadow);
   cursor: pointer;
-  display: block;
   font-size: 1rem;
   letter-spacing: 3px;
-  margin: 1em;
   padding: 1rem 2rem;
   text-decoration: none;
   text-align: center;
@@ -36,51 +35,100 @@ button:active {
   justify-content: center;
 }
 
-.demo:after {
-  content: '';
+.score {
+  background-color: #dbb700;
+  color: var(--creme);
+  display: flex;
+  justify-content: space-around;
+}
+
+.round-wrapper {
+  margin-bottom: 2.2em;
+  position: relative;
   width: 100%;
 }
 
+.response-wrapper {
+  display: flex;
+  position: relative;
+}
+
 .question,
-.total,
-.answer-wrapper,
-.button-wrapper {
-  width: 50%;
+.controls {
+  flex-basis: 100%;
+}
+
+.answer {
+  margin-left: auto;
+}
+
+.answer canvas {
+  background-color: var(--dark-grey);
+  display: block;
+  width: 100%;
 }
 
 .question {
-  background-color: var(--red);
-}
-
-.question > div {
+  align-items: center;
   background-color: var(--creme);
+  display: flex;
+  justify-content: space-around;
 }
 
-.total {
-  background-color: #dbb700;
-  color: var(--creme);
+.question > span {
+  align-items: center;
+  border: solid 1px var(--red);
+  box-shadow: var(--shadow);
+  display: flex;
+  height: 50px;
+  justify-content: center;
+  width: 50px;
 }
 
-.answer-wrapper {
-  order: 1;
+.question span {
+  color: var(--red);
 }
 
-.answer-wrapper canvas {
-  background-color: var(--dark-grey);
-  display: block;
+.is-green {
+  color: var(--green);
+}
+
+.is-orange {
+  color: var(--orange);
 }
 
 .response {
+  align-items: center;
   background-color: var(--dark-grey);
   color: var(--creme);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-.button-wrapper {
+.response > div {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.btn-no {
+  background-color: var(--orange);
+}
+
+.btn-yes {
+  background-color: var(--green);
+}
+
+.controls {
   align-items: center;
   background-color: var(--blue);
   display: flex;
-  /* flex-direction: column; */
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-evenly;
   grid-column-start: 3;
   grid-column-end: 5;
   grid-row-start: 3;

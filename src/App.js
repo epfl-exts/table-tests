@@ -1,89 +1,40 @@
-import React, { useContext, useState } from "react";
-import Controls from "./Controls.js";
+import React, { useState } from "react";
+import Round from "./Round.js";
 import "./App.css";
 
 const GameContext = React.createContext({});
 
 function App({ model }) {
-  const rounds = 5;
-  const [points, setPoints] = useState({ losses: 0, wins: 0 });
-  const { losses, wins } = points;
-  const [num1, num2] = useRandomNumbers();
-  const [question, setQuestion] = useState([num1, num2]);
-
-  const score = (
-    <div>
-      losses: {losses} --- wins: {wins}
-    </div>
-  );
-
-  if (losses + wins === rounds && losses < wins) {
-    return <h1>You win! ...{score}!</h1>;
-  } else if (losses + wins === rounds && losses > wins) {
-    return <h1>You lose! {score}...Sukka!</h1>;
-  } else {
-    return (
-      <GameContext.Provider
-        value={{ question, rounds, model, points, setPoints, setQuestion }}
-      >
-        <Question />
-        <Points />
-        <Controls />
-      </GameContext.Provider>
-    );
-  }
-}
-
-function Question() {
-  const { question } = useContext(GameContext);
-  const [num1, num2] = question;
+  const [points, addPoint] = usePoints(0);
 
   return (
-    <div className="question">
-      <div>
-        <h2>{num1}</h2>
-      </div>
-      <div>
-        <h2>x</h2>
-      </div>
-      <div>
-        <h2>{num2}</h2>
-      </div>
-    </div>
+    <GameContext.Provider value={{ addPoint, model }}>
+      <Score points={points} />
+      <Round />
+      <Round />
+      <Round />
+    </GameContext.Provider>
   );
 }
 
-function Points() {
-  const { rounds, points } = useContext(GameContext);
-  const { losses, wins } = points;
+function usePoints(initialValue) {
+  const [points, setPoints] = useState(initialValue);
+  const addPoint = () => setPoints(points + 1);
 
+  return [points, addPoint];
+}
+
+function Score({ points }) {
   return (
-    <div className="total">
+    <div className="score">
       <div>
         <h2>
-          {wins} correct. {losses} wrong.
+          <span className="is-green">{points}</span> correct.
         </h2>
-        <h2>{rounds - (losses + wins)} to go!</h2>
       </div>
     </div>
   );
-}
-
-function useRandomNumbers() {
-  const limit = 9;
-  const num1 = getRandomNumber(limit);
-  const num2 = getRandomNumber(limit, num1);
-
-  return [num1, num2];
-}
-
-function getRandomNumber(limit, multiple = 0) {
-  const randomNumber = Math.floor(Math.random() * limit);
-  if (randomNumber * multiple < 10) {
-    return randomNumber;
-  }
-  return getRandomNumber(limit, multiple);
 }
 
 export default App;
-export { GameContext, useRandomNumbers };
+export { GameContext };
