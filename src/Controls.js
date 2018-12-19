@@ -1,56 +1,30 @@
 import React, { useContext, useState } from "react";
 import { predict } from "./helpers.js";
 import { GameContext } from "./App.js";
+import { RoundContext } from "./Round.js";
 
-function Controls({ canvasRef }) {
-  const { addPoint, model } = useContext(GameContext);
+function Controls() {
   const [prediction, setPrediction] = useState();
 
-  const confirmation = (
-    <div className="response">
-      <h2>Did you mean {prediction}?</h2>
-      <div>
-        <button
-          className="btn-yes"
-          onClick={() => {
-            setPrediction(null);
-            addPoint();
-            canvasRef.current
-              .getContext("2d")
-              .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-          }}
-        >
-          Yes
-        </button>
-        <button
-          className="btn-no"
-          onClick={() => {
-            setPrediction(null);
-            canvasRef.current
-              .getContext("2d")
-              .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-          }}
-        >
-          No
-        </button>
-      </div>
-    </div>
-  );
+  if (prediction) {
+    return (
+      <Confirmation prediction={prediction} setPrediction={setPrediction} />
+    );
+  } else {
+    return <Buttons setPrediction={setPrediction} />;
+  }
+}
 
-  const buttons = (
+function Buttons({ setPrediction }) {
+  const { model } = useContext(GameContext);
+  const { ref } = useContext(RoundContext);
+
+  return (
     <div className="controls">
+      <button onClick={() => clearCanvas(ref)}>Clear</button>
       <button
         onClick={() => {
-          canvasRef.current
-            .getContext("2d")
-            .clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
-        }}
-      >
-        Clear
-      </button>
-      <button
-        onClick={() => {
-          predict(canvasRef.current, model).then(newPrediction => {
+          predict(ref.current, model).then(newPrediction => {
             setPrediction(newPrediction);
           });
         }}
@@ -59,12 +33,46 @@ function Controls({ canvasRef }) {
       </button>
     </div>
   );
+}
 
-  if (prediction) {
-    return confirmation;
-  } else {
-    return buttons;
-  }
+function Confirmation({ prediction, setPrediction }) {
+  const { addPoint } = useContext(GameContext);
+  const { question, ref } = useContext(RoundContext);
+
+  return (
+    <div className="response">
+      <h2>Did you mean {prediction}?</h2>
+      <div>
+        <button
+          className="btn-yes"
+          onClick={() => {
+            setPrediction(null);
+            prediction === question ? addPoint() : console.log("Wrong!");
+            ref.current
+              .getContext("2d")
+              .clearRect(0, 0, ref.current.width, ref.current.height);
+          }}
+        >
+          Yes
+        </button>
+        <button
+          className="btn-no"
+          onClick={() => {
+            setPrediction(null);
+            clearCanvas(ref);
+          }}
+        >
+          No
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function clearCanvas(ref) {
+  ref.current
+    .getContext("2d")
+    .clearRect(0, 0, ref.current.width, ref.current.height);
 }
 
 export default Controls;

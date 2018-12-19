@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from "react";
-import { ControlsContext } from "./Controls.js";
+import { RoundContext } from "./Round.js";
 
-const Answer = React.forwardRef((props, ref) => {
+const Answer = React.forwardRef(() => {
+  const { ref } = useContext(RoundContext);
   let ctx;
   let mouseDown = false;
   let lastX;

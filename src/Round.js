@@ -1,17 +1,21 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Answer from "./Answer.js";
 import Controls from "./Controls.js";
 
+const RoundContext = React.createContext({});
+
 function Round() {
-  const [question, setQuestion] = useState(useRandomNumbers);
+  const question = useRandomNumbers();
   let ref = React.createRef();
 
   return (
     <div className="round-wrapper">
       <Question question={question} />
       <div className="response-wrapper">
-        <Answer ref={ref} />
-        <Controls canvasRef={ref} />
+        <RoundContext.Provider value={{ question, ref }}>
+          <Answer />
+          <Controls />
+        </RoundContext.Provider>
       </div>
     </div>
   );
@@ -43,3 +47,4 @@ function getRandomNumber(limit, multiple = 0) {
 }
 
 export default Round;
+export { RoundContext };
