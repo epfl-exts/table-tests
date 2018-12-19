@@ -124,7 +124,6 @@ canvas {
 }
 
 .demo {
-  box-shadow: var(--shadow);
   max-width: calc(var(--container-max-width) + 2.5em);
   margin: 0 auto;
 }

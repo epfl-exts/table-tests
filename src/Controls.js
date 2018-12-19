@@ -37,7 +37,7 @@ function Buttons({ setPrediction }) {
 
 function Confirmation({ prediction, setPrediction }) {
   const { addPoint } = useContext(GameContext);
-  const { question, ref } = useContext(RoundContext);
+  const { question, ref, setAnswered } = useContext(RoundContext);
 
   return (
     <div className="response">
@@ -48,6 +48,7 @@ function Confirmation({ prediction, setPrediction }) {
           onClick={() => {
             setPrediction(null);
             prediction === question ? addPoint() : console.log("Wrong!");
+            setAnswered(true);
             ref.current
               .getContext("2d")
               .clearRect(0, 0, ref.current.width, ref.current.height);
