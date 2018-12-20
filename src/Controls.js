@@ -6,7 +6,7 @@ import { RoundContext } from "./Round.js";
 function Controls() {
   const [prediction, setPrediction] = useState();
 
-  if (prediction) {
+  if (prediction && prediction.length) {
     return (
       <Confirmation prediction={prediction} setPrediction={setPrediction} />
     );

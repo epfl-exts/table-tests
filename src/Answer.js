@@ -37,19 +37,18 @@ const Answer = React.forwardRef(() => {
   });
 
   return (
-    <div className="answer">
-      <canvas
-        onMouseDown={() => (mouseDown = true)}
-        onMouseMove={e => handleMouseMove(e)}
-        onMouseUp={() => {
-          mouseDown = false;
-          [lastX, lastY] = [undefined, undefined];
-        }}
-        height={320}
-        ref={ref}
-        width={320}
-      />
-    </div>
+    <canvas
+      className="answer"
+      onMouseDown={() => (mouseDown = true)}
+      onMouseMove={e => handleMouseMove(e)}
+      onMouseUp={() => {
+        mouseDown = false;
+        [lastX, lastY] = [undefined, undefined];
+      }}
+      height={320}
+      ref={ref}
+      width={320}
+    />
   );
 });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Answer from "./Answer.js";
 import Controls from "./Controls.js";
 
@@ -10,23 +10,26 @@ function Round() {
 
   return (
     <div className={answered ? "round-wrapper roll-out-left" : "round-wrapper"}>
-      <Question question={question} />
-      <div className="response-wrapper">
-        <RoundContext.Provider value={{ question, ref, setAnswered }}>
+      <RoundContext.Provider value={{ question, ref, setAnswered }}>
+        <div className="flex-wrapper">
+          <Question />
           <Answer />
-          <Controls />
-        </RoundContext.Provider>
-      </div>
+        </div>
+        <Controls />
+      </RoundContext.Provider>
     </div>
   );
 }
 
-function Question({ question }) {
+function Question() {
+  const { question } = useContext(RoundContext);
+  const [num1, num2] = question;
   return (
     <div className="question">
-      {question.map(number => (
-        <span>{number}</span>
-      ))}
+      <span>{num1}</span>
+      <h3>x</h3>
+      <span>{num2}</span>
+      <h3>=</h3>
     </div>
   );
 }
