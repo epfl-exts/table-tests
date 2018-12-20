@@ -56,4 +56,4 @@ function getRandomNumber(limit, multiple = 0) {
 }
 
 export default Round;
-export { RoundContext };
+export { RoundContext, useQuestion };
