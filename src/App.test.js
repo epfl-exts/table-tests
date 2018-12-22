@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { mount } from "enzyme";
-import renderer from "react-test-renderer";
-import Round, { Question } from "./Round";
-import Answer from "./Answer.js";
-import Controls, { Buttons, Confirmation } from "./Controls.js";
+// import renderer from "react-test-renderer";
+// import Round, { Question } from "./Round";
+// import Answer from "./Answer.js";
+// import Controls, { Buttons, Confirmation } from "./Controls.js";
 
 // describe("<Round />", () => {
 //   it("renders correctly", () => {
@@ -29,8 +29,31 @@ import Controls, { Buttons, Confirmation } from "./Controls.js";
 //   // });
 // });
 
-describe("useTwoNumbers", ()=>{
-  it("renders some numbers", ()=>{
-    // test the useTwoNumbers hook here.
+function useDay() {
+  const [d, setDate] = useState(new Date());
+
+  const interval = window.setInterval(() => {
+    const newDate = d.setSeconds(d.getSeconds() + 1);
+    setDate(new Date(newDate));
+  }, 1000);
+
+  return [interval, d.getSeconds()];
+}
+
+function TestComponent() {
+  const [interval, date] = useDay();
+
+  useEffect(() => {
+    return clearInterval(interval);
+  });
+
+  return <span>{date}</span>;
+}
+
+describe("useDay", () => {
+  it("returns the current day", () => {
+    const day = new Date().getSeconds(); // current day
+    const wrapper = mount(<TestComponent />); // our test component
+    expect(wrapper.contains(<span>{day}</span>)).toEqual(true);
   });
 });

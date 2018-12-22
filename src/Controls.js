@@ -6,7 +6,7 @@ import { RoundContext } from "./Round.js";
 function Controls() {
   const [prediction, setPrediction] = useState();
 
-  if (prediction && prediction.length) {
+  if (prediction >= 0) {
     return (
       <Confirmation prediction={prediction} setPrediction={setPrediction} />
     );
@@ -36,7 +36,7 @@ function Buttons({ setPrediction }) {
 }
 
 function Confirmation({ prediction, setPrediction }) {
-  const { addPoint } = useContext(GameContext);
+  const { dispatch } = useContext(GameContext);
   const { question, ref, setAnswered } = useContext(RoundContext);
 
   return (
@@ -47,7 +47,9 @@ function Confirmation({ prediction, setPrediction }) {
           className="btn-yes"
           onClick={() => {
             setPrediction(null);
-            prediction === question ? addPoint() : console.log("Wrong!");
+            prediction === question.reduce((a, b) => a * b)
+              ? dispatch({ type: "increment" })
+              : console.log("Wrong!");
             setAnswered(true);
             ref.current
               .getContext("2d")
