@@ -10,7 +10,7 @@ const Answer = React.forwardRef(() => {
 
   function drawLine(x, y, lastX, lastY) {
     ctx.beginPath();
-    ctx.strokeStyle = "#ffffff";
+    ctx.strokeStyle = "#000000";
     ctx.lineWidth = 12;
     ctx.lineJoin = "round";
     ctx.moveTo(lastX, lastY);
@@ -33,6 +33,8 @@ const Answer = React.forwardRef(() => {
 
   useEffect(() => {
     ctx = ref.current.getContext("2d");
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, 320,320)
     return null;
   });
 

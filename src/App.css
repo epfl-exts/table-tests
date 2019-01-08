@@ -66,7 +66,7 @@ button:active {
 }
 
 .answer-wrapper canvas {
-  background-color: var(--dark-grey);
+  background-color:white;
   display: block;
 }
 
