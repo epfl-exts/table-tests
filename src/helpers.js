@@ -24,7 +24,7 @@ async function predict(canvas, model) {
   // get the model's prediction results
   const results = Array.from(predictions);
 
-  return indexOfMax(results);
+  return indexOfMax(results).toString();
 }
 
 function indexOfMax(arr) {

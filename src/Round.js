@@ -1,20 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Answer from "./Answer.js";
 import Controls from "./Controls.js";
 
 const RoundContext = React.createContext({});
 
-function Round() {
-  const [question, answered, setAnswered] = useQuestion();
+function Round({ hideRound }) {
+  const question = useRandomNumbers();
   let ref = React.createRef();
 
   return (
-    <div className={answered ? "round-wrapper roll-out-left" : "round-wrapper"}>
-      <RoundContext.Provider value={{ question, ref, setAnswered }}>
-        <div className="flex-wrapper">
-          <Question />
-          <Answer />
-        </div>
+    <div className="flex-wrapper">
+      <RoundContext.Provider value={{ hideRound, question, ref }}>
+        <Question />
+        <Answer />
         <Controls />
       </RoundContext.Provider>
     </div>
@@ -34,12 +32,6 @@ function Question() {
   );
 }
 
-function useQuestion() {
-  const question = useRandomNumbers();
-  const [answered, setAnswered] = useState(false);
-  return [question, answered, value => setAnswered(value)];
-}
-
 function useRandomNumbers() {
   const limit = 9;
   const num1 = getRandomNumber(limit);
@@ -56,4 +48,4 @@ function getRandomNumber(limit, multiple = 0) {
 }
 
 export default Round;
-export { RoundContext, useQuestion };
+export { RoundContext };

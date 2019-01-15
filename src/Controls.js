@@ -6,7 +6,7 @@ import { RoundContext } from "./Round.js";
 function Controls() {
   const [prediction, setPrediction] = useState();
 
-  if (prediction >= 0) {
+  if (prediction) {
     return (
       <Confirmation prediction={prediction} setPrediction={setPrediction} />
     );
@@ -37,7 +37,7 @@ function Buttons({ setPrediction }) {
 
 function Confirmation({ prediction, setPrediction }) {
   const { dispatch } = useContext(GameContext);
-  const { question, ref, setAnswered } = useContext(RoundContext);
+  const { hideRound, question, ref } = useContext(RoundContext);
 
   return (
     <div className="response">
@@ -46,11 +46,11 @@ function Confirmation({ prediction, setPrediction }) {
         <button
           className="btn-yes"
           onClick={() => {
-            setPrediction(null);
-            prediction === question.reduce((a, b) => a * b)
+            setPrediction(false);
+            parseInt(prediction) === question.reduce((a, b) => a * b)
               ? dispatch({ type: "increment" })
               : console.log("Wrong!");
-            setAnswered(true);
+            hideRound();
             ref.current
               .getContext("2d")
               .clearRect(0, 0, ref.current.width, ref.current.height);
@@ -61,7 +61,7 @@ function Confirmation({ prediction, setPrediction }) {
         <button
           className="btn-no"
           onClick={() => {
-            setPrediction(null);
+            setPrediction(false);
             clearCanvas(ref);
           }}
         >
@@ -75,7 +75,7 @@ function Confirmation({ prediction, setPrediction }) {
 function clearCanvas(ref) {
   ref.current
     .getContext("2d")
-    .clearRect(0, 0, ref.current.width, ref.current.height);
+    .fillRect(0, 0, ref.current.width, ref.current.height);
 }
 
 export default Controls;

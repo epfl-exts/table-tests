@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import Round from "./Round.js";
 import "./App.css";
 
@@ -20,25 +20,63 @@ function pointReducer(pointsState, action) {
 }
 
 function App({ model }) {
-  // const [points, addPoint] = usePoints(0);
   const [points, dispatch] = useReducer(pointReducer, initialPoints);
+  const [rounds, roundsToGo, unhideAllRounds] = useRounds(3);
+
+  const gamePlay = (
+    <React.Fragment>
+      <Score points={points} />
+      <h2>{roundsToGo} to go!</h2>
+      {rounds}
+    </React.Fragment>
+  );
+
+  const playAgain = (
+    <div className="response-wrapper">
+      <div className="response">
+        <button
+          onClick={() => {
+            dispatch({ type: "reset" }); // reset the score
+            unhideAllRounds();
+          }}
+        >
+          <h1>
+            {points >= rounds.length / 2 ? "You win!" : "You lose."}
+            <br />
+            Play again!
+          </h1>
+          <span>&#10157;</span>
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <GameContext.Provider value={{ dispatch, model }}>
-      <Score points={points} />
-      <Round />
-      <Round />
-      <Round />
+      {roundsToGo !== 0 ? gamePlay : playAgain}
     </GameContext.Provider>
   );
 }
 
-// function usePoints(initialValue) {
-//   const [points, setPoints] = useState(initialValue);
-//   const addPoint = () => setPoints(points + 1);
+function useRounds(initialCount) {
+  const [hidden, setHidden] = useState([]);
 
-//   return [points, addPoint];
-// }
+  const rounds = Array.apply(null, { length: initialCount }).map(
+    (round, index) =>
+      hidden.includes(index) ? null : (
+        <Round
+          key={index}
+          hideRound={() => {
+            setHidden([...hidden, index]);
+          }}
+        />
+      )
+  );
+
+  const roundsToGo = initialCount - hidden.length;
+
+  return [rounds, roundsToGo, () => setHidden([])];
+}
 
 function Score({ points }) {
   return (

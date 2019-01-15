@@ -32,22 +32,30 @@ const Answer = React.forwardRef(() => {
   }
 
   useEffect(() => {
-    ctx = ref.current.getContext("2d");
-    return null;
+    const canvas = ref.current;
+    const scale = canvas.width / canvas.offsetWidth;
+    const reverseScale =  canvas.offsetWidth / canvas.width;
+
+    ctx = canvas.getContext("2d");
+    
+    ctx.scale(scale, scale);
+    ctx.fillStyle = "#000000";
+    ctx.fillRect(0, 0, canvas.height, canvas.width);
+
+    return () => ctx.scale(reverseScale, reverseScale);
   });
 
   return (
     <canvas
-      className="answer"
       onMouseDown={() => (mouseDown = true)}
       onMouseMove={e => handleMouseMove(e)}
       onMouseUp={() => {
         mouseDown = false;
         [lastX, lastY] = [undefined, undefined];
       }}
-      height={320}
+      height={500}
       ref={ref}
-      width={320}
+      width={500}
     />
   );
 });
