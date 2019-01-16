@@ -7,18 +7,18 @@
 .demo h1 {
   background: var(--light-grey);
   color: var(--orange);
-  font-family: 'Leckerli One', cursive;
+  font-family: "Leckerli One", cursive;
   font-size: 2.4em;
-  margin: .25em 0;
-  padding-top: .25em;
-  padding-bottom: .25em;
+  margin: 0.25em 0;
+  padding-top: 0.25em;
+  padding-bottom: 0.25em;
 }
 
 .score {
   background-color: #dbb700;
   display: flex;
   justify-content: space-around;
-  margin: .25em 0;
+  margin: 0.25em 0;
 }
 
 /* Round */
@@ -26,24 +26,37 @@
 .flex-wrapper {
   box-shadow: var(--shadow);
   display: flex;
-  flex-wrap: wrap;
-  margin: .75em auto;
+  flex-wrap: nowrap;
+  margin: 0.75em auto;
   position: relative;
   width: 100%;
 }
 
-canvas,
+.canvas-wrapper,
 .question,
 .controls {
-  flex-basis: calc(100%/3);
-  flex-grow: 1;
+  flex-basis: calc(100% / 3);
+}
+
+.canvas-wrapper {
+  padding-top: calc(100% / 3); /* 1:1 Aspect Ratio */
+  position: relative; /* If you want text inside of it */
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
 }
 
 .question {
   align-items: center;
   background-color: var(--creme);
   display: flex;
-  font-family: 'Leckerli One', cursive;
+  font-family: "Leckerli One", cursive;
   justify-content: left;
 }
 
@@ -73,7 +86,7 @@ canvas,
 }
 
 .response .is-cursive {
-  font-family: 'Leckerli One', cursive;
+  font-family: "Leckerli One", cursive;
   font-size: 2.2rem;
   vertical-align: sub;
 }

@@ -2,7 +2,7 @@
   "name": "table-tests",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://epfl-exts.github.io/table-tests",
+  "homepage": "https://epfl-exts.github.io/table-tests/",
   "dependencies": {
     "@tensorflow/tfjs": "^0.14.1",
     "enzyme": "^3.8.0",

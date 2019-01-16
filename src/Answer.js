@@ -34,10 +34,10 @@ const Answer = React.forwardRef(() => {
   useEffect(() => {
     const canvas = ref.current;
     const scale = canvas.width / canvas.offsetWidth;
-    const reverseScale =  canvas.offsetWidth / canvas.width;
+    const reverseScale = canvas.offsetWidth / canvas.width;
 
     ctx = canvas.getContext("2d");
-    
+
     ctx.scale(scale, scale);
     ctx.fillStyle = "#000000";
     ctx.fillRect(0, 0, canvas.height, canvas.width);
@@ -46,17 +46,19 @@ const Answer = React.forwardRef(() => {
   });
 
   return (
-    <canvas
-      onMouseDown={() => (mouseDown = true)}
-      onMouseMove={e => handleMouseMove(e)}
-      onMouseUp={() => {
-        mouseDown = false;
-        [lastX, lastY] = [undefined, undefined];
-      }}
-      height={500}
-      ref={ref}
-      width={500}
-    />
+    <div className="canvas-wrapper">
+      <canvas
+        onMouseDown={() => (mouseDown = true)}
+        onMouseMove={e => handleMouseMove(e)}
+        onMouseUp={() => {
+          mouseDown = false;
+          [lastX, lastY] = [undefined, undefined];
+        }}
+        height={500}
+        ref={ref}
+        width={500}
+      />
+    </div>
   );
 });
 
