@@ -41,7 +41,7 @@ function Confirmation({ prediction, setPrediction }) {
 
   return (
     <div className="response">
-      <h2>Did you mean {prediction}?</h2>
+      <h2>Did you mean <span className="is-cursive">{prediction}</span>&nbsp;?</h2>
       <div>
         <button
           className="btn-yes"

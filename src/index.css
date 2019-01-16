@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Leckerli+One');
+
 :root {
   --off-white: #fbfbfb;
   --light-grey: #a5a6a9;
@@ -92,6 +94,7 @@ main {
 }
 
 .footer {
+  color: var(--dark-grey);
   flex-shrink: 0;
   background-color: var(--grey);
 }
@@ -109,12 +112,6 @@ main {
 
 .footer .content {
   position: relative;
-}
-
-.is-cursive {
-  font-family: Brush Script MT, cursive;
-  font-size: 1.5em;
-  font-style: normal;
 }
 
 pre {

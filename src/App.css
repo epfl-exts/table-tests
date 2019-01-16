@@ -1,8 +1,24 @@
+.demo {
+  background: var(--off-white);
+  padding: 0.8em;
+  text-align: center;
+}
+
+.demo h1 {
+  background: var(--light-grey);
+  color: var(--orange);
+  font-family: 'Leckerli One', cursive;
+  font-size: 2.4em;
+  margin: .25em 0;
+  padding-top: .25em;
+  padding-bottom: .25em;
+}
+
 .score {
   background-color: #dbb700;
-  color: var(--creme);
   display: flex;
   justify-content: space-around;
+  margin: .25em 0;
 }
 
 /* Round */
@@ -11,7 +27,7 @@
   box-shadow: var(--shadow);
   display: flex;
   flex-wrap: wrap;
-  margin: .5em auto;
+  margin: .75em auto;
   position: relative;
   width: 100%;
 }
@@ -27,6 +43,7 @@ canvas,
   align-items: center;
   background-color: var(--creme);
   display: flex;
+  font-family: 'Leckerli One', cursive;
   justify-content: left;
 }
 
@@ -49,6 +66,16 @@ canvas,
   display: block;
   height: 320px;
   position: relative;
+}
+
+.response h1 {
+  background: none;
+}
+
+.response .is-cursive {
+  font-family: 'Leckerli One', cursive;
+  font-size: 2.2rem;
+  vertical-align: sub;
 }
 
 .response-wrapper button {

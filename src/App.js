@@ -21,30 +21,35 @@ function pointReducer(pointsState, action) {
 
 function App({ model }) {
   const [points, dispatch] = useReducer(pointReducer, initialPoints);
-  const [rounds, roundsToGo, unhideAllRounds] = useRounds(3);
+  const [rounds, roundsToGo, unhideAllRounds] = useRounds(4);
 
   const gamePlay = (
-    <React.Fragment>
-      <Score points={points} />
-      <h2>{roundsToGo} to go!</h2>
+    <div>
+      <h1>TableTests</h1>
+      <div className="score">
+        <h2>
+          <span className="is-green">{points}</span> correct &amp;&nbsp;
+          {roundsToGo} to go!
+        </h2>
+      </div>
       {rounds}
-    </React.Fragment>
+    </div>
   );
 
   const playAgain = (
     <div className="response-wrapper">
       <div className="response">
+        <h1>
+          {points >= rounds.length / 2 ? "You win!" : "You lose."}
+          <br />
+          <span className="is-green">Play again!</span>
+        </h1>
         <button
           onClick={() => {
             dispatch({ type: "reset" }); // reset the score
             unhideAllRounds();
           }}
         >
-          <h1>
-            {points >= rounds.length / 2 ? "You win!" : "You lose."}
-            <br />
-            Play again!
-          </h1>
           <span>&#10157;</span>
         </button>
       </div>
@@ -76,18 +81,6 @@ function useRounds(initialCount) {
   const roundsToGo = initialCount - hidden.length;
 
   return [rounds, roundsToGo, () => setHidden([])];
-}
-
-function Score({ points }) {
-  return (
-    <div className="score">
-      <div>
-        <h2>
-          <span className="is-green">{points}</span> correct.
-        </h2>
-      </div>
-    </div>
-  );
 }
 
 export default App;
