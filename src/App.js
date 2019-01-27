@@ -21,7 +21,7 @@ function pointReducer(pointsState, action) {
 
 function App({ model }) {
   const [points, dispatch] = useReducer(pointReducer, initialPoints);
-  const [rounds, roundsToGo, unhideAllRounds] = useRounds(4);
+  const [rounds, roundsToGo, unhideAllRounds] = useRounds(3);
 
   const gamePlay = (
     <div>

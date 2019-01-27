@@ -4,15 +4,14 @@ import * as tf from "@tensorflow/tfjs";
 // // preprocess the canvas to be CNN friendly
 // //-----------------------------------------------
 function preprocessCanvas(canvas) {
-  // resize the input image to CNN's target size of (1, 28, 28)
   let tensor = tf
-    .fromPixels(canvas)
-    .resizeNearestNeighbor([28, 28])
-    .mean(2)
-    .expandDims(2)
-    .expandDims()
-    .toFloat();
-  return tensor.div(255.0);
+    .fromPixels(canvas) // Shape: (300, 300, 3) - RGB image
+    .resizeNearestNeighbor([28, 28]) // Shape: (28, 28, 3) - RGB image
+    .mean(2) // Shape: (28, 28) - grayscale
+    .expandDims(2) // Shape: (28, 28, 1) - network expects 3d values with channels in the last dimension
+    .expandDims() // Shape: (1, 28, 28, 1) - network makes predictions for "batches" of images
+    .toFloat(); // Network works with floating points inputs
+  return tensor.div(255.0); // Normalize [0..255] values into [0..1] range
 }
 
 async function predict(canvas, model) {
