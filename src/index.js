@@ -9,7 +9,7 @@ async function loadModel() {
   console.log("Model loading...");
   // load the model using a HTTPS request (where you have stored your model files)
   return await tf
-    .loadModel("https://gogul09.github.io/models/digitrecognizercnn/model.json")
+    .loadLayersModel("/table-tests/model/model.json")
     .then(console.log("Loaded."));
 }
 
@@ -18,4 +18,4 @@ ReactDOM.render(<App model={loadModel()} />, document.getElementById("root"));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.register();
+serviceWorker.unregister();
