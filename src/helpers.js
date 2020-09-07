@@ -5,7 +5,7 @@ import * as tf from "@tensorflow/tfjs";
 // //-----------------------------------------------
 function preprocessCanvas(canvas) {
   let tensor = tf
-    .fromPixels(canvas) // Shape: (300, 300, 3) - RGB image
+    .browser.fromPixels(canvas) // Shape: (300, 300, 3) - RGB image
     .resizeNearestNeighbor([28, 28]) // Shape: (28, 28, 3) - RGB image
     .mean(2) // Shape: (28, 28) - grayscale
     .expandDims(2) // Shape: (28, 28, 1) - network expects 3d values with channels in the last dimension

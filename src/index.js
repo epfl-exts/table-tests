@@ -9,7 +9,7 @@ async function loadModel() {
   console.log("Model loading...");
   // load the model using a HTTPS request (where you have stored your model files)
   return await tf
-    .loadModel("https://gogul09.github.io/models/digitrecognizercnn/model.json")
+    .loadLayersModel("/table-tests/model/model.json")
     .then(console.log("Loaded."));
 }
 
